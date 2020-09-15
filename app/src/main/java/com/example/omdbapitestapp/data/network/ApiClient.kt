@@ -1,5 +1,6 @@
 package com.example.omdbapitestapp.data.network
 
+import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.accept
@@ -8,20 +9,20 @@ import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.takeFrom
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class ApiClient(
-    val httpClient: HttpClient
-) {
+class ApiClient(val httpClient: HttpClient) {
 
     suspend inline fun <reified T> get(
         noinline block: HttpRequestBuilder.() -> Unit = {}
     ): T? = withContext(Dispatchers.IO) {
-        try {
-            httpClient.get { call(block = block) }
-        } catch (e: Throwable) {
-            null
-        }
+            try {
+                httpClient.get { call(block = block) }
+            } catch (e: Throwable) {
+                Log.e("ApiClient", e.message?:e.localizedMessage)
+                null
+            }
     }
 
     fun HttpRequestBuilder.call(
