@@ -12,10 +12,11 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
 
     override suspend fun search(query: String): List<MovieEntity>? {
-        val dbModels = remoteSource.search(query)?.search?.mapNotNull{ it.toDbModel() }?.apply {
+        val modelsFromSearch = remoteSource.search(query)?.search
+        val dbModels = modelsFromSearch?.mapNotNull{ it.toDbModel() }?.apply {
             withContext(Dispatchers.IO) { localSource.insertAll(this@apply) }
         }
-        return dbModels?.map { it.imdbID }?.run { localSource.loadAllByIds(this) }
+        return  dbModels?.map { it.imdbID }?.run { localSource.loadAllByIds(this) }
     }
 
     override suspend fun setWatchLater(id: String, value: Boolean) = withContext(Dispatchers.IO) {

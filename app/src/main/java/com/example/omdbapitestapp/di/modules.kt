@@ -7,6 +7,7 @@ import com.example.omdbapitestapp.data.db.Dao
 import com.example.omdbapitestapp.data.db.MovieDb
 import com.example.omdbapitestapp.data.network.ApiClient
 import com.example.omdbapitestapp.domain.MovieRepository
+import com.example.omdbapitestapp.domain.MovieUseCase
 import com.example.omdbapitestapp.presentation.MainViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -20,7 +21,10 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), get(), get()) }
+    factory { MovieUseCase.Search(get()) }
+    factory { MovieUseCase.Watched(get()) }
+    factory { MovieUseCase.WatchLater(get()) }
     single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
     single { ApiClient(get()) }
     single { MovieRemoteResource(get()) }

@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 
 @Dao
 interface MovieDao {
@@ -18,18 +19,18 @@ interface MovieDao {
     @Insert(onConflict = IGNORE)
     suspend fun insertAll(movies: List<MovieEntity>)
 
-    @Insert(onConflict = IGNORE)
-    suspend fun insert(movie: MovieEntity)
+    @Update(onConflict = IGNORE)
+    suspend fun update(movie: MovieEntity)
 
     @Transaction
     suspend fun setWatchLater(id: String, value: Boolean) {
         val item = getByID(id).firstOrNull()
-        item?.run { insert(copy(watchLater = value)) }
+        item?.run { update(copy(watchLater = value)) }
     }
 
     @Transaction
     suspend fun setWatched(id: String, value: Boolean) {
         val item = getByID(id).firstOrNull()
-        item?.run { insert(copy(watched = value)) }
+        item?.run { update(copy(watched = value)) }
     }
 }

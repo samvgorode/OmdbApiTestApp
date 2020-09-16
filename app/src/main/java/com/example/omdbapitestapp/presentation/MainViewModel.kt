@@ -1,18 +1,48 @@
 package com.example.omdbapitestapp.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.omdbapitestapp.domain.MovieRepository
 import androidx.lifecycle.viewModelScope
+import com.example.omdbapitestapp.domain.MovieUseCase
+import com.example.omdbapitestapp.model.ChangeFlagModel
+import com.example.omdbapitestapp.model.UiMovieModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val movieRepository: MovieRepository): ViewModel() {
+@ExperimentalCoroutinesApi
+class MainViewModel(
+    private val search: MovieUseCase.Search,
+    private val setWatchLater: MovieUseCase.WatchLater,
+    private val setWatched: MovieUseCase.Watched,
+) : ViewModel() {
 
-    fun loadData() {
+    private val stateChannel = ConflatedBroadcastChannel<State?>(null)
+
+    fun onSearch(query: String) {
         viewModelScope.launch {
-            val list = movieRepository.search("fuck")
-            movieRepository.setWatchLater("tt0486585", true)
-            movieRepository.setWatched("tt0486585", true)
-            val list2 = movieRepository.search("fuck")
+            search(query)?.let { State(it) }?.let(stateChannel::offer)
         }
+    }
+
+    fun onWatchLater(id: String, watchLater: Boolean) = viewModelScope.launch {
+        setWatchLater(ChangeFlagModel(id, watchLater))
+    }
+
+    fun onWatched(id: String, watched: Boolean) = viewModelScope.launch {
+        setWatched(ChangeFlagModel(id, watched))
+    }
+
+    @FlowPreview
+    fun observeState() = stateChannel.asFlow()
+
+    data class State(
+        val list: List<UiMovieModel> = emptyList()
+    )
+
+    override fun onCleared() {
+        stateChannel.close()
+        super.onCleared()
     }
 }
