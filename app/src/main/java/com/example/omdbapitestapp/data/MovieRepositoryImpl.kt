@@ -11,18 +11,17 @@ class MovieRepositoryImpl(
     private val localSource: MovieLocalResource,
 ) : MovieRepository {
 
-    override suspend fun search(query: String): List<MovieEntity>? {
+    override suspend fun search(query: String): List<MovieEntity>? = withContext(Dispatchers.IO) {
         val modelsFromSearch = remoteSource.search(query)?.search
         val dbModels = modelsFromSearch?.mapNotNull{ it.toDbModel() }?.apply {
-            withContext(Dispatchers.IO) { localSource.insertAll(this@apply) }
+            localSource.insertAll(this@apply)
         }
-        return  dbModels?.map { it.imdbID }?.run { localSource.loadAllByIds(this) }
+        dbModels?.map { it.imdbID }?.run { localSource.loadAllByIds(this) }
     }
 
     override suspend fun setWatchLater(id: String, value: Boolean) = withContext(Dispatchers.IO) {
         localSource.setWatchLater(id, value)
     }
-
 
     override suspend fun setWatched(id: String, value: Boolean) = withContext(Dispatchers.IO) {
         localSource.setWatched(id, value)
