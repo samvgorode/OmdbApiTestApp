@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         tools:visibility="visible"
-        tools:listitem="@layout/movies_list_item"/>
+        tools:listitem="@layout/movies_list_item"
+        android:paddingVertical="16dp"/>
 
     <ProgressBar
         android:id="@+id/progress"

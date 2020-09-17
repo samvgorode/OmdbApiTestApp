@@ -16,10 +16,12 @@ class MoviesListViewModel(
     private val search: MovieUseCase.Search,
     private val setWatchLater: MovieUseCase.WatchLater,
     private val setWatched: MovieUseCase.Watched,
-    loadQuery: MovieUseCase.LoadQuery,
+    private val loadQuery: MovieUseCase.LoadQuery,
 ) : ViewModel() {
 
-    init {
+    init { updateSearch() }
+
+    private fun updateSearch() {
         val query = loadQuery()
         viewModelScope.launch {
             search(query)?.let { State(it) }?.let(stateChannel::offer)
@@ -28,13 +30,27 @@ class MoviesListViewModel(
 
     private val stateChannel = ConflatedBroadcastChannel<State?>(null)
 
-    fun onWatchLater(id: String, watchLater: Boolean) = viewModelScope.launch {
-        setWatchLater(ChangeFlagModel(id, watchLater))
+    fun onWatchLater(id: String, watchLater: Boolean) {
+        viewModelScope.launch {
+            setWatchLater(ChangeFlagModel(id, watchLater))
+        }
+        updateChannel(id) { model-> model.copy(watchLater = watchLater) }
     }
 
-    fun onWatched(id: String, watched: Boolean) = viewModelScope.launch {
-        setWatched(ChangeFlagModel(id, watched))
+    fun onWatched(id: String, watched: Boolean) {
+        viewModelScope.launch {
+            setWatched(ChangeFlagModel(id, watched))
+        }
+        updateChannel(id) { model-> model.copy(watched = watched) }
     }
+
+    private fun updateChannel(id: String, block: (MovieModel)->MovieModel) {
+        stateChannel.valueOrNull?.list?.toMutableList()?.let { list->
+            val item = list.find { it.imdbID == id }
+            val index = list.indexOf(item)
+            item?.let { list.set(index, block(it)) }
+            stateChannel.offer(State(list = list))
+    }}
 
     @FlowPreview
     fun observeState() = stateChannel.asFlow()

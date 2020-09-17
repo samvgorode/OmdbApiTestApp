@@ -11,7 +11,7 @@
         <action
             android:id="@+id/action_start_search_to_list"
             app:destination="@id/moviesListFragment"
-            app:popUpTo="@id/nav_graph" />
+            app:popUpTo="@id/startSearchFragment" />
     </fragment>
 
     <fragment

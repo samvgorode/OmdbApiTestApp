@@ -1,5 +1,6 @@
 package com.example.omdbapitestapp.data
 
+import android.util.Log
 import com.example.omdbapitestapp.data.db.MovieEntity
 import com.example.omdbapitestapp.domain.MovieRepository
 import com.example.omdbapitestapp.model.MovieModel
@@ -12,11 +13,11 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
 
     override suspend fun search(query: String): List<MovieModel>? = withContext(Dispatchers.IO) {
-        val modelsFromSearch = remoteSource.search(query)?.search ?: return@withContext null
+        val modelsFromSearch =  remoteSource.search(query)?.search?: return@withContext null
         val ids = modelsFromSearch.map { it?.imdbID }.filterNotNull()
+        Log.e("MovieRepositoryImpl", "response ids + $ids")
         val localModels = localSource.loadAllByIds(ids)
         val localIsEmpty = localModels.isEmpty()
-        if(localIsEmpty) localSource.insertAll(ids.map { MovieEntity(it) })
         return@withContext modelsFromSearch.map { searchItem ->
             val watchLater: Boolean
             val watched: Boolean

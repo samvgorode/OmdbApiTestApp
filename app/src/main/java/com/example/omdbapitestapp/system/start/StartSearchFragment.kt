@@ -19,7 +19,7 @@ class StartSearchFragment : Fragment(R.layout.start_search_fragment) {
         binding = StartSearchFragmentBinding.bind(view)
         val activity = (requireActivity() as? MainActivity)
         binding?.run {
-            searchInput.requestFocusFromTouch()
+            searchInput.requestFocus()
             activity?.showKeyboard()
             search.setOnClickListener {
                 viewModel.saveQuery(searchInput.text.toString())

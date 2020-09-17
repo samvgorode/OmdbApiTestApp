@@ -20,7 +20,9 @@ class MoviesListAdapter(private val viewModel: MoviesListViewModel) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         LayoutInflater
             .from(parent.context).run {
-                MovieViewHolder(inflate(R.layout.movies_list_item, parent, false))
+                MovieViewHolder(
+                    containerView = inflate(R.layout.movies_list_item, parent, false)
+                )
             }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -32,22 +34,29 @@ class MoviesListAdapter(private val viewModel: MoviesListViewModel) :
 
     private fun onBindViewHolder(holder: MovieViewHolder, row: MovieModel) {
         holder.binding.run {
-            titleText.text = row.title
-            yearText.text = row.year
-            typeText.text = row.type
-            watchLaterCheck.isChecked = row.watchLater
-            watchedCheck.isChecked = row.watched
-            posterImage.load(row.posterLink)
-            watchLaterCheck.setOnCheckedChangeListener { _, b ->
-                viewModel.onWatchLater(row.imdbID, b)
+            posterImage.load(row.posterLink) {
+                placeholder(R.drawable.ic_no_preview)
             }
-            watchedCheck.setOnCheckedChangeListener { _, b ->
-                viewModel.onWatched(row.imdbID, b)
+            details.run {
+                titleText.text = row.title
+                yearText.text = row.year
+                typeText.text = row.type
+                watchLaterCheck.isChecked = row.watchLater
+                watchedCheck.isChecked = row.watched
+                watchLaterWrapper.setOnClickListener {
+                        viewModel.onWatchLater(row.imdbID, watchLaterCheck.isChecked.not())
+                }
+                watchedWrapper.setOnClickListener {
+                        viewModel.onWatched(row.imdbID, watchedCheck.isChecked.not())
+                }
             }
         }
     }
 
-    private class MovieViewHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+    private class MovieViewHolder(
+        containerView: View
+    ) :
+        RecyclerView.ViewHolder(containerView) {
         val binding = MoviesListItemBinding.bind(containerView)
     }
 
@@ -58,6 +67,9 @@ class MoviesListAdapter(private val viewModel: MoviesListViewModel) :
         ): Boolean = oldItem.imdbID == newItem.imdbID
 
         override fun areContentsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean =
-            oldItem == newItem
+            oldItem.title == newItem.title &&
+            oldItem.posterLink == newItem.posterLink &&
+            oldItem.watchLater == newItem.watchLater &&
+                    oldItem.watched == newItem.watched
     }
 }

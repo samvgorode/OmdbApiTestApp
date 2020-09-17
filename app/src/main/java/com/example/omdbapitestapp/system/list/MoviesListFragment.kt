@@ -11,9 +11,11 @@ import com.example.omdbapitestapp.R
 import com.example.omdbapitestapp.databinding.MoviesListFragmentBinding
 import com.example.omdbapitestapp.presentation.list.MoviesListViewModel
 import com.example.omdbapitestapp.system.MainActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
@@ -33,7 +35,6 @@ class MoviesListFragment: Fragment(R.layout.movies_list_fragment) {
                 adapter = MoviesListAdapter(viewModel)
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
-            progress.isVisible = true
             goToSearch.setOnClickListener {
                 (requireActivity() as? MainActivity)?.navigateSafe(R.id.action_list_to_start_search)
             }
@@ -43,18 +44,16 @@ class MoviesListFragment: Fragment(R.layout.movies_list_fragment) {
     @FlowPreview
     override fun onStart() {
         super.onStart()
-        lifecycleScope.launchWhenStarted {
+        binding?.progress?.isVisible = true
+        lifecycleScope.launch(Dispatchers.Main) {
             viewModel.observeState().collect { state ->
-                val list = state?.list ?: return@collect
+                val list = state?.list
                 binding?.run {
                     progress.isVisible = false
-                    if (list.isEmpty()) {
-                        moviesList.isVisible = false
-                        noResults.isVisible = true
-                    } else {
-                        moviesList.isVisible = true
-                        noResults.isVisible = false
-                        (moviesList.adapter as? MoviesListAdapter)?.submitList(list)
+                    list.isNullOrEmpty().let {
+                        moviesList.isVisible = it.not()
+                        noResults.isVisible = it
+                        if(it.not()) (moviesList.adapter as? MoviesListAdapter)?.submitList(list)
                     }
                 }
             }
