@@ -10,8 +10,11 @@ import coil.load
 import com.example.omdbapitestapp.R
 import com.example.omdbapitestapp.databinding.MoviesListItemBinding
 import com.example.omdbapitestapp.model.MovieModel
+import com.example.omdbapitestapp.presentation.list.MoviesListViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class MoviesListAdapter :
+@ExperimentalCoroutinesApi
+class MoviesListAdapter(private val viewModel: MoviesListViewModel) :
     ListAdapter<MovieModel, RecyclerView.ViewHolder>(DiscoverSearchEqualityCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -35,6 +38,12 @@ class MoviesListAdapter :
             watchLaterCheck.isChecked = row.watchLater
             watchedCheck.isChecked = row.watched
             posterImage.load(row.posterLink)
+            watchLaterCheck.setOnCheckedChangeListener { _, b ->
+                viewModel.onWatchLater(row.imdbID, b)
+            }
+            watchedCheck.setOnCheckedChangeListener { _, b ->
+                viewModel.onWatched(row.imdbID, b)
+            }
         }
     }
 

@@ -8,6 +8,8 @@ class MovieLocalResource(private val movieDao: MovieDao) {
     suspend fun loadAllByIds(imdbIDs: List<String>): List<MovieEntity> =
         movieDao.loadAllByIds(imdbIDs)
 
+    suspend fun insertAll(imdbIDs: List<MovieEntity>) = movieDao.insertAll(imdbIDs)
+
     suspend fun setWatchLater(id: String, value: Boolean)  = movieDao.setWatchLater(id, value)
 
     suspend fun setWatched(id: String, value: Boolean) = movieDao.setWatched(id, value)

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.omdbapitestapp.R
 import com.example.omdbapitestapp.databinding.MoviesListFragmentBinding
 import com.example.omdbapitestapp.presentation.list.MoviesListViewModel
+import com.example.omdbapitestapp.system.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -29,10 +30,13 @@ class MoviesListFragment: Fragment(R.layout.movies_list_fragment) {
                 layoutManager = object : LinearLayoutManager(requireContext()) {
                     override fun supportsPredictiveItemAnimations(): Boolean = false
                 }
-                adapter = MoviesListAdapter()
+                adapter = MoviesListAdapter(viewModel)
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
             progress.isVisible = true
+            goToSearch.setOnClickListener {
+                (requireActivity() as? MainActivity)?.navigateSafe(R.id.action_list_to_start_search)
+            }
         }
     }
 

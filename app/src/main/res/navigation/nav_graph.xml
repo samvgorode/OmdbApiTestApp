@@ -17,6 +17,11 @@
     <fragment
         android:id="@+id/moviesListFragment"
         android:name="com.example.omdbapitestapp.system.list.MoviesListFragment"
-        android:label="MoviesListFragment" />
+        android:label="MoviesListFragment">
+        <action
+            android:id="@+id/action_list_to_start_search"
+            app:destination="@id/startSearchFragment"
+            app:popUpTo="@id/nav_graph" />
+    </fragment>
 
 </navigation>

@@ -1,5 +1,6 @@
 package com.example.omdbapitestapp.data
 
+import com.example.omdbapitestapp.data.db.MovieEntity
 import com.example.omdbapitestapp.domain.MovieRepository
 import com.example.omdbapitestapp.model.MovieModel
 import kotlinx.coroutines.Dispatchers
@@ -14,10 +15,19 @@ class MovieRepositoryImpl(
         val modelsFromSearch = remoteSource.search(query)?.search ?: return@withContext null
         val ids = modelsFromSearch.map { it?.imdbID }.filterNotNull()
         val localModels = localSource.loadAllByIds(ids)
+        val localIsEmpty = localModels.isEmpty()
+        if(localIsEmpty) localSource.insertAll(ids.map { MovieEntity(it) })
         return@withContext modelsFromSearch.map { searchItem ->
-            val localItem = localModels.find { it.imdbID == searchItem?.imdbID }
-            val watchLater = localItem?.watchLater ?: false
-            val watched = localItem?.watched ?: false
+            val watchLater: Boolean
+            val watched: Boolean
+            if(localIsEmpty) {
+                watchLater = false
+                watched = false
+            } else {
+                val localItem = localModels.find { it.imdbID == searchItem?.imdbID }
+                watchLater = localItem?.watchLater ?: false
+                watched = localItem?.watched ?: false
+            }
             MovieModel(
                 imdbID = searchItem?.imdbID.orEmpty(),
                 year = searchItem?.year.orEmpty(),
