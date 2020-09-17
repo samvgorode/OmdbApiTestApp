@@ -35,5 +35,6 @@ class ApiClient(val httpClient: HttpClient) {
         private const val API_KEY_NAME = "apikey"
         private const val API_URL = "http://www.omdbapi.com/"
         const val API_SEARCH_KEY = "s"
+        const val API_ID_KEY = "i"
     }
 }

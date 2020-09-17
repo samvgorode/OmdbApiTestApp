@@ -10,3 +10,12 @@ data class SearchResponse(
     @SerialName("Response") val response: Boolean? = null,
     @SerialName("Error") val error: String? = null,
 )
+
+@Serializable
+data class SearchItem(
+    @SerialName("Title") val title: String? = null,
+    @SerialName("Year") val year: String? = null,
+    @SerialName("imdbID") val imdbID: String? = null,
+    @SerialName("Type") val type: String? = null,
+    @SerialName("Poster") val poster: String? = null,
+)

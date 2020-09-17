@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">OmdbApiTestApp</string>
+    <string name="no_results">No results</string>
+    <string name="input_movie_title_here">input movie title here</string>
+    <string name="search">search</string>
+    <string name="title">Title:</string>
+    <string name="year">Year:</string>
+    <string name="type">Type:</string>
+    <string name="watch_later">Watch later</string>
+    <string name="watched">Watched</string>
 </resources>

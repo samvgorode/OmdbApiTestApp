@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startSearchFragment">
+
+    <fragment
+        android:id="@+id/startSearchFragment"
+        android:name="com.example.omdbapitestapp.system.start.StartSearchFragment"
+        android:label="StartSearchFragment">
+        <action
+            android:id="@+id/action_start_search_to_list"
+            app:destination="@id/moviesListFragment"
+            app:popUpTo="@id/nav_graph" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/moviesListFragment"
+        android:name="com.example.omdbapitestapp.system.list.MoviesListFragment"
+        android:label="MoviesListFragment" />
+
+</navigation>

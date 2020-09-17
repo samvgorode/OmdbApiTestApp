@@ -1,6 +1,6 @@
 package com.example.omdbapitestapp.model
 
-data class UiMovieModel(
+data class MovieModel(
     val imdbID: String,
     val year: String?,
     val title: String?,
