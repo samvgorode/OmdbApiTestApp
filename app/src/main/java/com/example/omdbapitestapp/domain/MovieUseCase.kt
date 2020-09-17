@@ -19,6 +19,20 @@ sealed class MovieUseCase {
             queryRepository.load()
     }
 
+    class StoreMovieId(
+        private val queryRepository: SelectedIdRepository
+    ) : InUseCase<String> {
+        override fun invoke(input: String) =
+            queryRepository.store(input)
+    }
+
+    class LoadMovieId(
+        private val queryRepository: SelectedIdRepository
+    ) : OutUseCase<String> {
+        override fun invoke(): String =
+            queryRepository.load()
+    }
+
     class Search(
         private val movieRepository: MovieRepository
     ) : InOutCoUseCase<String, List<MovieModel>?> {
@@ -45,10 +59,6 @@ sealed class MovieUseCase {
 
 interface InOutCoUseCase<in I, out O> {
     suspend operator fun invoke(input: I): O
-}
-
-interface OutCoUseCase<out O> {
-    suspend operator fun invoke(): O
 }
 
 interface OutUseCase<out O> {

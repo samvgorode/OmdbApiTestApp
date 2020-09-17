@@ -19,10 +19,13 @@ import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-class MoviesListFragment: Fragment(R.layout.movies_list_fragment) {
+class MoviesListFragment : Fragment(R.layout.movies_list_fragment) {
 
     private val viewModel: MoviesListViewModel by viewModel()
     private var binding: MoviesListFragmentBinding? = null
+    private val mainActivity: MainActivity? by lazy {
+        requireActivity() as? MainActivity
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +39,7 @@ class MoviesListFragment: Fragment(R.layout.movies_list_fragment) {
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
             goToSearch.setOnClickListener {
-                (requireActivity() as? MainActivity)?.navigateSafe(R.id.action_list_to_start_search)
+                mainActivity?.navigateSafe(R.id.action_list_to_start_search)
             }
         }
     }
@@ -47,16 +50,27 @@ class MoviesListFragment: Fragment(R.layout.movies_list_fragment) {
         binding?.progress?.isVisible = true
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.observeState().collect { state ->
-                val list = state?.list
-                binding?.run {
-                    progress.isVisible = false
-                    list.isNullOrEmpty().let {
-                        moviesList.isVisible = it.not()
-                        noResults.isVisible = it
-                        if(it.not()) (moviesList.adapter as? MoviesListAdapter)?.submitList(list)
+                state?.run {
+                    if (goToMovieDetails) {
+                        goToMovieDetails()
+                        return@collect
+                    }
+                    binding?.run {
+                        progress.isVisible = false
+                        list.isNullOrEmpty().let {
+                            moviesList.isVisible = it.not()
+                            noResults.isVisible = it
+                            if (it.not()) (moviesList.adapter as? MoviesListAdapter)?.submitList(
+                                list
+                            )
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun goToMovieDetails() {
+        mainActivity?.navigateSafe(R.id.action_list_to_details)
     }
 }

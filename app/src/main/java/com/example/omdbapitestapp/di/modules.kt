@@ -4,12 +4,14 @@ import com.example.omdbapitestapp.data.MovieLocalResource
 import com.example.omdbapitestapp.data.MovieRemoteResource
 import com.example.omdbapitestapp.data.MovieRepositoryImpl
 import com.example.omdbapitestapp.data.SearchQueryRepositoryImpl
+import com.example.omdbapitestapp.data.SelectedIdRepositoryImpl
 import com.example.omdbapitestapp.data.db.Dao
 import com.example.omdbapitestapp.data.db.MovieDb
 import com.example.omdbapitestapp.data.network.ApiClient
 import com.example.omdbapitestapp.domain.MovieRepository
 import com.example.omdbapitestapp.domain.MovieUseCase
 import com.example.omdbapitestapp.domain.SearchQueryRepository
+import com.example.omdbapitestapp.domain.SelectedIdRepository
 import com.example.omdbapitestapp.presentation.list.MoviesListViewModel
 import com.example.omdbapitestapp.presentation.start.StartSearchViewModel
 import io.ktor.client.HttpClient
@@ -25,15 +27,18 @@ import org.koin.dsl.module
 
 @ExperimentalCoroutinesApi
 val appModule = module {
-    viewModel { MoviesListViewModel(get(), get(), get(), get()) }
+    viewModel { MoviesListViewModel(get(), get(), get(), get(), get()) }
     viewModel { StartSearchViewModel(get()) }
     factory { MovieUseCase.Search(get()) }
     factory { MovieUseCase.Watched(get()) }
     factory { MovieUseCase.WatchLater(get()) }
     factory { MovieUseCase.StoreQuery(get()) }
     factory { MovieUseCase.LoadQuery(get()) }
+    factory { MovieUseCase.StoreMovieId(get()) }
+    factory { MovieUseCase.LoadMovieId(get()) }
     single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
     single<SearchQueryRepository> { SearchQueryRepositoryImpl() }
+    single<SelectedIdRepository> { SelectedIdRepositoryImpl() }
     single { ApiClient(get()) }
     single { MovieRemoteResource(get()) }
     single { MovieLocalResource(get()) }

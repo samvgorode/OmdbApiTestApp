@@ -34,8 +34,12 @@ class MoviesListAdapter(private val viewModel: MoviesListViewModel) :
 
     private fun onBindViewHolder(holder: MovieViewHolder, row: MovieModel) {
         holder.binding.run {
+            val movieId = row.imdbID
             posterImage.load(row.posterLink) {
                 placeholder(R.drawable.ic_no_preview)
+            }
+            root.setOnClickListener {
+                viewModel.onGoToDetailsFragment(movieId)
             }
             details.run {
                 titleText.text = row.title
@@ -44,10 +48,10 @@ class MoviesListAdapter(private val viewModel: MoviesListViewModel) :
                 watchLaterCheck.isChecked = row.watchLater
                 watchedCheck.isChecked = row.watched
                 watchLaterWrapper.setOnClickListener {
-                        viewModel.onWatchLater(row.imdbID, watchLaterCheck.isChecked.not())
+                        viewModel.onWatchLater(movieId, watchLaterCheck.isChecked.not())
                 }
                 watchedWrapper.setOnClickListener {
-                        viewModel.onWatched(row.imdbID, watchedCheck.isChecked.not())
+                        viewModel.onWatched(movieId, watchedCheck.isChecked.not())
                 }
             }
         }

@@ -17,6 +17,7 @@ class MoviesListViewModel(
     private val setWatchLater: MovieUseCase.WatchLater,
     private val setWatched: MovieUseCase.Watched,
     private val loadQuery: MovieUseCase.LoadQuery,
+    private val storeId: MovieUseCase.StoreMovieId,
 ) : ViewModel() {
 
     init { updateSearch() }
@@ -44,6 +45,16 @@ class MoviesListViewModel(
         updateChannel(id) { model-> model.copy(watched = watched) }
     }
 
+    fun onGoToDetailsFragment(id: String) {
+        storeId(id)
+        changeGoToDetailsFlag(true)
+        changeGoToDetailsFlag(false)
+    }
+
+    private fun changeGoToDetailsFlag(goToDetails: Boolean) {
+        stateChannel.offer(stateChannel.valueOrNull?.copy(goToMovieDetails = goToDetails))
+    }
+
     private fun updateChannel(id: String, block: (MovieModel)->MovieModel) {
         stateChannel.valueOrNull?.list?.toMutableList()?.let { list->
             val item = list.find { it.imdbID == id }
@@ -56,7 +67,8 @@ class MoviesListViewModel(
     fun observeState() = stateChannel.asFlow()
 
     data class State(
-        val list: List<MovieModel> = emptyList()
+        val list: List<MovieModel> = emptyList(),
+        val goToMovieDetails: Boolean = false,
     )
 
     override fun onCleared() {

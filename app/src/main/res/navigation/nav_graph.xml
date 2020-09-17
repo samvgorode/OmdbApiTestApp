@@ -22,6 +22,16 @@
             android:id="@+id/action_list_to_start_search"
             app:destination="@id/startSearchFragment"
             app:popUpTo="@id/nav_graph" />
+        <action
+            android:id="@+id/action_list_to_details"
+            app:destination="@id/movieDetailsFragment"
+            app:popUpTo="@id/moviesListFragment" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.omdbapitestapp.system.details.MovieDetailsFragment"
+        android:label="MovieDetailsFragment" />
 
 </navigation>
