@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.omdbapitestapp.domain.MovieUseCase
 import com.example.omdbapitestapp.model.ChangeFlagModel
 import com.example.omdbapitestapp.model.MovieModel
+import com.example.omdbapitestapp.model.SearchResponseModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -25,7 +26,11 @@ class MoviesListViewModel(
     private fun updateSearch() {
         val query = loadQuery()
         viewModelScope.launch {
-            search(query)?.let { State(it) }?.let(stateChannel::offer)
+            val state: State = when(val searchResponse = search(query)) {
+                is SearchResponseModel.Success -> State(list = searchResponse.movies.orEmpty())
+                is SearchResponseModel.Failure -> State(errorMessage = searchResponse.errorMessage)
+            }
+            stateChannel.offer(state)
         }
     }
 
@@ -68,6 +73,7 @@ class MoviesListViewModel(
 
     data class State(
         val list: List<MovieModel> = emptyList(),
+        val errorMessage: String? = null,
         val goToMovieDetails: Boolean = false,
     )
 

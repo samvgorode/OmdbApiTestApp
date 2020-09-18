@@ -2,6 +2,7 @@ package com.example.omdbapitestapp.domain
 
 import com.example.omdbapitestapp.model.ChangeFlagModel
 import com.example.omdbapitestapp.model.MovieModel
+import com.example.omdbapitestapp.model.SearchResponseModel
 
 sealed class MovieUseCase {
 
@@ -35,8 +36,8 @@ sealed class MovieUseCase {
 
     class Search(
         private val movieRepository: MovieRepository
-    ) : InOutCoUseCase<String, List<MovieModel>?> {
-        override suspend fun invoke(input: String): List<MovieModel>? =
+    ) : InOutCoUseCase<String, SearchResponseModel> {
+        override suspend fun invoke(input: String): SearchResponseModel =
             movieRepository.search(input)
     }
 

@@ -13,7 +13,7 @@ class MovieRemoteResource(private val apiClient: ApiClient) {
         parameter(API_SEARCH_KEY, query)
     }
 
-    suspend fun getMovieInfo(imdbId: String): OneMovieResponse? = apiClient.get{
+    suspend fun getMovieById(imdbId: String): OneMovieResponse? = apiClient.get{
         parameter(API_ID_KEY, imdbId)
     }
 }

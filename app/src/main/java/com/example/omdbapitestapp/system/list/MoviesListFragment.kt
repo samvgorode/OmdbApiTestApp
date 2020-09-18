@@ -57,12 +57,14 @@ class MoviesListFragment : Fragment(R.layout.movies_list_fragment) {
                     }
                     binding?.run {
                         progress.isVisible = false
-                        list.isNullOrEmpty().let {
-                            moviesList.isVisible = it.not()
-                            noResults.isVisible = it
-                            if (it.not()) (moviesList.adapter as? MoviesListAdapter)?.submitList(
-                                list
-                            )
+                        if(list.isNullOrEmpty() || errorMessage != null) {
+                            moviesList.isVisible = false
+                            noResults.isVisible = true
+                            noResults.text = errorMessage?:getString(R.string.no_results)
+                        } else {
+                            moviesList.isVisible = true
+                            noResults.isVisible = false
+                            (moviesList.adapter as? MoviesListAdapter)?.submitList(list)
                         }
                     }
                 }

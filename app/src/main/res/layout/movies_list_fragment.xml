@@ -26,7 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/no_results"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:textStyle="bold" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/go_to_search"
