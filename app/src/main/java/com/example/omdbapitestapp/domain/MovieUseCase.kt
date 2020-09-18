@@ -1,6 +1,7 @@
 package com.example.omdbapitestapp.domain
 
 import com.example.omdbapitestapp.model.ChangeFlagModel
+import com.example.omdbapitestapp.model.CheckFlagsModel
 import com.example.omdbapitestapp.model.OneMovieResponseModel
 import com.example.omdbapitestapp.model.SearchResponseModel
 
@@ -62,5 +63,12 @@ sealed class MovieUseCase {
         override suspend fun invoke(input: ChangeFlagModel) {
             movieRepository.setWatched(input.id, input.flag)
         }
+    }
+
+    class LoadCheckFlags(
+        private val movieRepository: MovieRepository
+    ) : CoUseCase<List<String>, List<CheckFlagsModel>> {
+        override suspend fun invoke(input: List<String>): List<CheckFlagsModel> =
+            movieRepository.getCheckFlagsModel(input)
     }
 }

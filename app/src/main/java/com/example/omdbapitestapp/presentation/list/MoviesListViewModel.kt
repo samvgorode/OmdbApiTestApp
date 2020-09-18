@@ -14,6 +14,7 @@ class MoviesListViewModel(
     private val setWatched: MovieUseCase.Watched,
     private val loadQuery: MovieUseCase.LoadQuery,
     private val storeId: MovieUseCase.StoreMovieId,
+    private val loadCheckFlags: MovieUseCase.LoadCheckFlags,
 ) : BaseViewModel<MoviesListViewModel.State>() {
 
     init {
@@ -61,6 +62,24 @@ class MoviesListViewModel(
             val index = list.indexOf(item)
             item?.let { list.set(index, block(it)) }
             offerState(State(list = list))
+        }
+    }
+
+    fun updateFlags() {
+        viewModelScope.launch {
+            loadStateValue()?.list?.run {
+                val currentIds = map { it.imdbID }
+                val checkModels = loadCheckFlags(currentIds)
+                val newList = mutableListOf<MovieModel>()
+                forEach { uiModel ->
+                    checkModels.find { it.id == uiModel.imdbID }?.run {
+                        if (watchLater != uiModel.watchLater || watched != uiModel.watched)
+                            newList.add(uiModel.copy(watchLater = watchLater, watched = watched))
+                        else newList.add(uiModel)
+                    }
+                }
+                offerState(State(newList))
+            }
         }
     }
 

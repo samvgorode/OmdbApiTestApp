@@ -2,6 +2,7 @@ package com.example.omdbapitestapp.data
 
 import android.util.Log
 import com.example.omdbapitestapp.domain.MovieRepository
+import com.example.omdbapitestapp.model.CheckFlagsModel
 import com.example.omdbapitestapp.model.FullMovieModel
 import com.example.omdbapitestapp.model.MovieModel
 import com.example.omdbapitestapp.model.OneMovieResponseModel
@@ -92,4 +93,11 @@ class MovieRepositoryImpl(
     override suspend fun setWatched(id: String, value: Boolean) = withContext(Dispatchers.IO) {
         localSource.setWatched(id, value)
     }
+
+    override suspend fun getCheckFlagsModel(imdbIds: List<String>): List<CheckFlagsModel> =
+        withContext(Dispatchers.IO) {
+            localSource.loadAllByIds(imdbIds).map {
+                CheckFlagsModel(id = it.imdbID, watchLater = it.watchLater, watched = it.watched)
+            }
+        }
 }

@@ -36,7 +36,7 @@
         <action
             android:id="@+id/action_details_to_list"
             app:destination="@id/moviesListFragment"
-            app:popUpTo="@id/moviesListFragment" />
+            app:popUpTo="@id/startSearchFragment" />
     </fragment>
 
 </navigation>

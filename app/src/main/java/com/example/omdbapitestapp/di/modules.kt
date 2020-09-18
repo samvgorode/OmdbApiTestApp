@@ -26,7 +26,7 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { MoviesListViewModel(get(), get(), get(), get(), get()) }
+    viewModel { MoviesListViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { StartSearchViewModel(get(), get()) }
     viewModel { MovieDetailsViewModel(get(), get(), get(), get()) }
     factory { MovieUseCase.Search(get()) }
@@ -37,6 +37,7 @@ val appModule = module {
     factory { MovieUseCase.LoadQuery(get()) }
     factory { MovieUseCase.StoreMovieId(get()) }
     factory { MovieUseCase.LoadMovieId(get()) }
+    factory { MovieUseCase.LoadCheckFlags(get()) }
     single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
     single<SearchQueryRepository> { SearchQueryRepositoryImpl() }
     single<SelectedIdRepository> { SelectedIdRepositoryImpl() }

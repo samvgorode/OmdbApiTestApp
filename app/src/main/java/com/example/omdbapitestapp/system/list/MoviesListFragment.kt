@@ -60,4 +60,9 @@ class MoviesListFragment : BaseFragment(R.layout.movies_list_fragment) {
     private fun goToMovieDetails() {
         mainActivity?.navigateSafe(R.id.action_list_to_details)
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateFlags()
+    }
 }
