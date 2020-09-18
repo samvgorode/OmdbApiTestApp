@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/imdb_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/imdb_rating"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/imdb_rating_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/imdb_rating"
+        app:layout_constraintTop_toTopOf="@+id/imdb_rating"
+        tools:text="The Fatality" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/imdb_votes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/people_voted_on_imdb"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/imdb_rating"
+        app:layout_constraintTop_toBottomOf="@+id/imdb_rating_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/imdb_votes_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/imdb_votes"
+        app:layout_constraintTop_toTopOf="@+id/imdb_votes"
+        tools:text="2009" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/released"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/released"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/imdb_votes"
+        app:layout_constraintTop_toBottomOf="@+id/imdb_votes_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/released_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/released"
+        app:layout_constraintTop_toTopOf="@+id/released"
+        tools:text="movie" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/country"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/released"
+        app:layout_constraintTop_toBottomOf="@+id/released_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/country_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/country"
+        app:layout_constraintTop_toTopOf="@+id/country"
+        tools:text="movie" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/language"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/country"
+        app:layout_constraintTop_toBottomOf="@+id/country_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/language_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/language"
+        app:layout_constraintTop_toTopOf="@+id/language"
+        tools:text="movie" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/director"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/language"
+        app:layout_constraintTop_toBottomOf="@+id/language_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/director_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/director"
+        app:layout_constraintTop_toTopOf="@+id/director"
+        tools:text="movie" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/production"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/production"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/director"
+        app:layout_constraintTop_toBottomOf="@+id/director_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/production_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/production"
+        app:layout_constraintTop_toTopOf="@+id/production"
+        tools:text="movie" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/genre"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/production"
+        app:layout_constraintTop_toBottomOf="@+id/production_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/genre_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/genre"
+        app:layout_constraintTop_toTopOf="@+id/genre"
+        tools:text="movie" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/runtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/runtiime"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/genre"
+        app:layout_constraintTop_toBottomOf="@+id/genre_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/runtime_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/runtime"
+        app:layout_constraintTop_toTopOf="@+id/runtime"
+        tools:text="movie" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/actors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/actors"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/runtime"
+        app:layout_constraintTop_toBottomOf="@+id/runtime_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/actors_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/actors"
+        app:layout_constraintTop_toTopOf="@+id/actors"
+        tools:text="movie" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/plot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/plot"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/actors"
+        app:layout_constraintTop_toBottomOf="@+id/actors_text" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/plot_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/plot"
+        app:layout_constraintTop_toTopOf="@+id/plot"
+        tools:text="moviedddddd;ljasnv;ljqbe;vkjqbw;vkjbwq;kvjbrwq;kvjb;qwkjvb;kqwjbv;kqjwbv;kjqwb;vljqbw;lvjbqljbvjlq" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

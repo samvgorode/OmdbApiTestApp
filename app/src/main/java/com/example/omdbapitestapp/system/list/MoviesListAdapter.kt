@@ -11,9 +11,7 @@ import com.example.omdbapitestapp.R
 import com.example.omdbapitestapp.databinding.MoviesListItemBinding
 import com.example.omdbapitestapp.model.MovieModel
 import com.example.omdbapitestapp.presentation.list.MoviesListViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class MoviesListAdapter(private val viewModel: MoviesListViewModel) :
     ListAdapter<MovieModel, RecyclerView.ViewHolder>(DiscoverSearchEqualityCallback()) {
 

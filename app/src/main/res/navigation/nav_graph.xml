@@ -32,6 +32,11 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.example.omdbapitestapp.system.details.MovieDetailsFragment"
-        android:label="MovieDetailsFragment" />
+        android:label="MovieDetailsFragment">
+        <action
+            android:id="@+id/action_details_to_list"
+            app:destination="@id/moviesListFragment"
+            app:popUpTo="@id/moviesListFragment" />
+    </fragment>
 
 </navigation>

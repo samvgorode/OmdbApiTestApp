@@ -8,4 +8,15 @@
     <string name="type">Type:</string>
     <string name="watch_later">Watch later</string>
     <string name="watched">Watched</string>
+    <string name="imdb_rating">IMDB Rating: </string>
+    <string name="people_voted_on_imdb">People voted on IMDB: </string>
+    <string name="released">Released: </string>
+    <string name="country">Country: </string>
+    <string name="language">Language: </string>
+    <string name="director">Director: </string>
+    <string name="production">Production: </string>
+    <string name="genre">Genre: </string>
+    <string name="runtiime">Runtiime: </string>
+    <string name="actors">Actors: </string>
+    <string name="plot">Plot: </string>
 </resources>

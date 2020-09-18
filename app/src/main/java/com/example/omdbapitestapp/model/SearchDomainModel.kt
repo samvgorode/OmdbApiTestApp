@@ -13,5 +13,4 @@ data class MovieModel(
     val posterLink: String?,
     val watchLater: Boolean = false,
     val watched: Boolean = false,
-    val errorMessage: String? = null
 )

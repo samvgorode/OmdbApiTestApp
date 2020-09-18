@@ -1,14 +1,14 @@
 package com.example.omdbapitestapp.domain
 
 import com.example.omdbapitestapp.model.ChangeFlagModel
-import com.example.omdbapitestapp.model.MovieModel
+import com.example.omdbapitestapp.model.OneMovieResponseModel
 import com.example.omdbapitestapp.model.SearchResponseModel
 
 sealed class MovieUseCase {
 
     class StoreQuery(
         private val queryRepository: SearchQueryRepository
-    ) : InUseCase<String> {
+    ) : UseCase<String, Unit> {
         override fun invoke(input: String) =
             queryRepository.store(input)
     }
@@ -22,7 +22,7 @@ sealed class MovieUseCase {
 
     class StoreMovieId(
         private val queryRepository: SelectedIdRepository
-    ) : InUseCase<String> {
+    ) : UseCase<String, Unit> {
         override fun invoke(input: String) =
             queryRepository.store(input)
     }
@@ -36,14 +36,21 @@ sealed class MovieUseCase {
 
     class Search(
         private val movieRepository: MovieRepository
-    ) : InOutCoUseCase<String, SearchResponseModel> {
+    ) : CoUseCase<String, SearchResponseModel> {
         override suspend fun invoke(input: String): SearchResponseModel =
             movieRepository.search(input)
     }
 
+    class LoadOne(
+        private val movieRepository: MovieRepository
+    ) : CoUseCase<String, OneMovieResponseModel> {
+        override suspend fun invoke(input: String): OneMovieResponseModel =
+            movieRepository.getMovieById(input)
+    }
+
     class WatchLater(
         private val movieRepository: MovieRepository
-    ) : InCoUseCase<ChangeFlagModel> {
+    ) : CoUseCase<ChangeFlagModel, Unit> {
         override suspend fun invoke(input: ChangeFlagModel) {
             movieRepository.setWatchLater(input.id, input.flag)
         }
@@ -51,25 +58,9 @@ sealed class MovieUseCase {
 
     class Watched(
         private val movieRepository: MovieRepository
-    ) : InCoUseCase<ChangeFlagModel> {
+    ) : CoUseCase<ChangeFlagModel, Unit> {
         override suspend fun invoke(input: ChangeFlagModel) {
             movieRepository.setWatched(input.id, input.flag)
         }
     }
-}
-
-interface InOutCoUseCase<in I, out O> {
-    suspend operator fun invoke(input: I): O
-}
-
-interface OutUseCase<out O> {
-    operator fun invoke(): O
-}
-
-interface InCoUseCase<in I> {
-    suspend operator fun invoke(input: I)
-}
-
-interface InUseCase<in I> {
-    operator fun invoke(input: I)
 }

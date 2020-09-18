@@ -12,6 +12,7 @@ import com.example.omdbapitestapp.domain.MovieRepository
 import com.example.omdbapitestapp.domain.MovieUseCase
 import com.example.omdbapitestapp.domain.SearchQueryRepository
 import com.example.omdbapitestapp.domain.SelectedIdRepository
+import com.example.omdbapitestapp.presentation.details.MovieDetailsViewModel
 import com.example.omdbapitestapp.presentation.list.MoviesListViewModel
 import com.example.omdbapitestapp.presentation.start.StartSearchViewModel
 import io.ktor.client.HttpClient
@@ -19,17 +20,17 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.http.ContentType
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-@ExperimentalCoroutinesApi
 val appModule = module {
     viewModel { MoviesListViewModel(get(), get(), get(), get(), get()) }
-    viewModel { StartSearchViewModel(get()) }
+    viewModel { StartSearchViewModel(get(), get()) }
+    viewModel { MovieDetailsViewModel(get(), get(), get(), get()) }
     factory { MovieUseCase.Search(get()) }
+    factory { MovieUseCase.LoadOne(get()) }
     factory { MovieUseCase.Watched(get()) }
     factory { MovieUseCase.WatchLater(get()) }
     factory { MovieUseCase.StoreQuery(get()) }
