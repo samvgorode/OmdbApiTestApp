@@ -43,7 +43,7 @@ class MovieDetailsViewModel(
         updateState { model -> model.copy(watched = watched) }
     }
 
-    private fun updateState(block: (FullMovieModel) -> FullMovieModel) {
+    private inline fun updateState(block: (FullMovieModel) -> FullMovieModel) {
         val stateValue = loadStateValue()
         stateValue?.movie?.let {
             offerState(stateValue.copy(movie = block(it)))

@@ -17,9 +17,9 @@ import com.example.omdbapitestapp.presentation.list.MoviesListViewModel
 import com.example.omdbapitestapp.presentation.start.StartSearchViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.features.HttpTimeout
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.http.ContentType
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -54,8 +54,11 @@ val appModule = module {
                     ignoreUnknownKeys = false
                     allowSpecialFloatingPointValues = true
                     useArrayPolymorphism = false
+                    ignoreUnknownKeys = true
                 })
-                acceptContentTypes = listOf(ContentType.Application.Json, ContentType.Text.Plain)
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 3000
             }
         }
     }

@@ -56,7 +56,7 @@ class MoviesListViewModel(
         offerState(loadStateValue()?.copy(goToMovieDetails = goToDetails))
     }
 
-    private fun updateChannel(id: String, block: (MovieModel) -> MovieModel) {
+    private inline fun updateChannel(id: String, block: (MovieModel) -> MovieModel) {
         loadStateValue()?.list?.toMutableList()?.let { list ->
             val item = list.find { it.imdbID == id }
             val index = list.indexOf(item)
@@ -76,7 +76,7 @@ class MoviesListViewModel(
                         if (watchLater != uiModel.watchLater || watched != uiModel.watched)
                             newList.add(uiModel.copy(watchLater = watchLater, watched = watched))
                         else newList.add(uiModel)
-                    }
+                    } ?: newList.add(uiModel)
                 }
                 offerState(State(newList))
             }

@@ -8,7 +8,6 @@ import com.example.omdbapitestapp.model.MovieModel
 import com.example.omdbapitestapp.model.OneMovieResponseModel
 import com.example.omdbapitestapp.model.SearchResponseModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class MovieRepositoryImpl(
@@ -24,7 +23,7 @@ class MovieRepositoryImpl(
         )
         else {
             val ids = modelsFromSearch.map { it?.imdbID }.filterNotNull()
-            Log.e("MovieRepositoryImpl", "response ids + $ids")
+            Log.e("MovieRepositoryImpl", "response ids $ids")
             val localModels = localSource.loadAllByIds(ids)
             val localIsEmpty = localModels.isEmpty()
             SearchResponseModel.Success(modelsFromSearch.map { searchItem ->
@@ -49,13 +48,11 @@ class MovieRepositoryImpl(
                 )
             })
         }
-
     }
 
     override suspend fun getMovieById(imdbId: String): OneMovieResponseModel =
         withContext(Dispatchers.IO) {
             val result = remoteSource.getMovieById(imdbId)
-            delay(400)
             if (result?.response == false || result == null)
                 OneMovieResponseModel.Failure(result?.error)
             else result.run {
@@ -63,21 +60,21 @@ class MovieRepositoryImpl(
                 OneMovieResponseModel.Success(
                     FullMovieModel(
                         imdbId = imdbId,
-                        title = title,
-                        year = year,
-                        type = type,
-                        imdbRating = imdbRating,
-                        imdbVotes = imdbVotes,
-                        poster = poster,
-                        released = released,
-                        country = country,
-                        language = language,
-                        director = director,
-                        production = production,
-                        genre = genre,
-                        runtime = runtime,
-                        actors = actors,
-                        plot = plot,
+                        title = title.naToNull(),
+                        year = year.naToNull(),
+                        type = type.naToNull(),
+                        imdbRating = imdbRating.naToNull(),
+                        imdbVotes = imdbVotes.naToNull(),
+                        poster = poster.naToNull(),
+                        released = released.naToNull(),
+                        country = country.naToNull(),
+                        language = language.naToNull(),
+                        director = director.naToNull(),
+                        production = production.naToNull(),
+                        genre = genre.naToNull(),
+                        runtime = runtime.naToNull(),
+                        actors = actors.naToNull(),
+                        plot = plot.naToNull(),
                         watchLater = localModel?.watchLater ?: false,
                         watched = localModel?.watched ?: false
                     )
@@ -85,6 +82,9 @@ class MovieRepositoryImpl(
             }
         }
 
+    private fun String?.naToNull() =
+        if (isNullOrBlank() || this.equals("n/a", true)) null
+        else this
 
     override suspend fun setWatchLater(id: String, value: Boolean) = withContext(Dispatchers.IO) {
         localSource.setWatchLater(id, value)

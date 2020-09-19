@@ -8,6 +8,7 @@ import com.example.omdbapitestapp.R
 import com.example.omdbapitestapp.databinding.MovieDetailsFragmentBinding
 import com.example.omdbapitestapp.presentation.details.MovieDetailsViewModel
 import com.example.omdbapitestapp.system.base.BaseFragment
+import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.flow.collect
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -61,20 +62,28 @@ class MovieDetailsFragment : BaseFragment(R.layout.movie_details_fragment) {
                         watchedCheck.isChecked = movie.watched
                     }
                     detailsMaxLayout.run {
-                        imdbRatingText.text = movie.imdbRating
-                        imdbVotesText.text = movie.imdbVotes
-                        releasedText.text = movie.released
-                        countryText.text = movie.country
-                        languageText.text = movie.language
-                        directorText.text = movie.director
-                        productionText.text = movie.production
-                        genreText.text = movie.genre
-                        runtimeText.text = movie.runtime
-                        actorsText.text = movie.actors
-                        plotText.text = movie.plot
+                        setFieldData(movie.imdbRating, imdbRating, imdbRatingText)
+                        setFieldData(movie.imdbVotes, imdbVotes, imdbVotesText)
+                        setFieldData(movie.released, released, releasedText)
+                        setFieldData(movie.country, country, countryText)
+                        setFieldData(movie.language, language, languageText)
+                        setFieldData(movie.director, director, directorText)
+                        setFieldData(movie.production, production, productionText)
+                        setFieldData(movie.genre, genre, genreText)
+                        setFieldData(movie.runtime, runtime, runtimeText)
+                        setFieldData(movie.actors, actors, actorsText)
+                        setFieldData(movie.plot, plot, plotText)
                     }
                 }
             }
+        }
+    }
+
+    private fun setFieldData(data: String?, name: MaterialTextView, value: MaterialTextView) {
+        (data != null).let {
+            name.isVisible = it
+            value.isVisible = it
+            if (it) value.text = data
         }
     }
 }
